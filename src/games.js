@@ -10,6 +10,7 @@ function disableAll(root) {
 export function renderQuestion(question) {
   if (question.type === 'hunt') return renderHunt(question);
   if (question.type === 'map') return renderMap(question);
+  if (question.type === 'spell') return renderSpell(question);
   return renderChoice(question);
 }
 
@@ -47,6 +48,22 @@ function renderHunt(question) {
 
 function renderMap(question) {
   return `<div class="map-wrap">${question.stem}<p class="map-hint">Tap a continent</p></div>`;
+}
+
+function renderSpell(question) {
+  const slots = [...question.word].map((_, i) => `<span class="spell-slot" data-slot="${i}"></span>`).join('');
+  const tiles = question.tiles
+    .map(
+      (letter, i) => `
+      <button class="spell-tile" data-letter="${letter}" data-tile="${i}" type="button">${letter}</button>`,
+    )
+    .join('');
+  return `
+    <div class="spell-game" data-word="${question.word}">
+      <div class="q-stem">${question.stem || ''}</div>
+      <div class="spell-slots" aria-label="spelling">${slots}</div>
+      <div class="spell-tiles">${tiles}</div>
+    </div>`;
 }
 
 export function bindQuestion(root, question, onAnswer) {
@@ -87,6 +104,40 @@ export function bindQuestion(root, question, onAnswer) {
           if (right) right.classList.add('is-correct');
         }
         finish(correct);
+      });
+    });
+  }
+
+  if (question.type === 'spell') {
+    let next = 0;
+    const word = question.word.toUpperCase();
+    root.querySelectorAll('[data-letter]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (done) return;
+        const letter = btn.dataset.letter;
+        play('tap');
+        if (letter === word[next]) {
+          const slot = root.querySelector(`[data-slot="${next}"]`);
+          if (slot) slot.textContent = letter;
+          btn.disabled = true;
+          btn.classList.add('is-used');
+          next += 1;
+          play('pop');
+          if (next >= word.length) {
+            play('correct');
+            root.querySelector('.spell-slots')?.classList.add('is-correct');
+            finish(true);
+          }
+        } else {
+          play('wrong');
+          btn.classList.add('is-wrong');
+          [...word].forEach((ch, i) => {
+            const slot = root.querySelector(`[data-slot="${i}"]`);
+            if (slot) slot.textContent = ch;
+          });
+          root.querySelector('.spell-slots')?.classList.add('is-wrong');
+          finish(false);
+        }
       });
     });
   }

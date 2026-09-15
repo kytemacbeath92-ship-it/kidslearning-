@@ -121,6 +121,7 @@ function playScreen() {
         <button class="text-btn" data-action="quit">Map</button>
         <div class="hud-mid">
           <strong>Level ${level.id} · ${level.title}</strong>
+          <div class="skill-chip skill-${q.skill || 'explore'}">${skillLabel(q.skill)}</div>
           <div class="dots">${dots}</div>
         </div>
         <div class="score-chip">⭐ ${session.correct}</div>
@@ -158,6 +159,12 @@ function resultsScreen() {
     </section>`;
 }
 
+function skillLabel(skill) {
+  if (skill === 'math') return 'Math quiz';
+  if (skill === 'spelling') return 'Spelling';
+  return 'Explore';
+}
+
 function parentScreen() {
   const rows = LEVELS.map((level) => {
     const best = state.best[level.id];
@@ -177,6 +184,7 @@ function parentScreen() {
       </header>
       <div class="card parent-card">
         <p>Inspired by ABCmouse’s 10-level path, Khan Academy Kids’ friendly coaching, and Duolingo ABC’s short illustrated games.</p>
+        <p>Each world stays at its school year: preschool through 2nd grade only. Every level mixes the world theme with <strong>math</strong> and <strong>spelling</strong> games that get harder only up to that grade.</p>
         <p>Kids must score at least <strong>80%</strong> (8/10) to unlock the next level. Stars: 1 at 80%, 2 at 90%, 3 at 100%.</p>
         <table class="progress-table">
           <thead><tr><th>Level</th><th>Stage</th><th>Best</th><th>Status</th><th>Stars</th></tr></thead>

@@ -91,7 +91,7 @@ export const LEVELS = [
   {
     id: 1,
     title: 'Rainbow World',
-    subtitle: 'Colors',
+    subtitle: 'Colors · count 1–5 · first letters',
     ages: 'Ages 3–4',
     grade: 'Preschool',
     subject: 'colours',
@@ -101,7 +101,7 @@ export const LEVELS = [
   {
     id: 2,
     title: 'Letter Land A–M',
-    subtitle: 'Alphabet',
+    subtitle: 'A–M · count 1–5 · first-letter spelling',
     ages: 'Ages 3–5',
     grade: 'Preschool',
     subject: 'alphabet',
@@ -111,7 +111,7 @@ export const LEVELS = [
   {
     id: 3,
     title: 'Farm Friends',
-    subtitle: 'Animals',
+    subtitle: 'Farm animals · count 1–10 · first letters',
     ages: 'Ages 4–5',
     grade: 'Pre-K',
     subject: 'animals',
@@ -121,7 +121,7 @@ export const LEVELS = [
   {
     id: 4,
     title: 'Letter Land N–Z',
-    subtitle: 'Alphabet',
+    subtitle: 'N–Z · count to 10 · beginning sounds',
     ages: 'Ages 4–5',
     grade: 'Pre-K',
     subject: 'alphabet',
@@ -131,7 +131,7 @@ export const LEVELS = [
   {
     id: 5,
     title: 'Number Jungle',
-    subtitle: 'Math',
+    subtitle: 'Count to 20 · add to 5 · CVC spelling',
     ages: 'Ages 5–6',
     grade: 'Kindergarten',
     subject: 'math',
@@ -141,7 +141,7 @@ export const LEVELS = [
   {
     id: 6,
     title: 'Wild Safari',
-    subtitle: 'Animals + Colors',
+    subtitle: 'Animals · add to 10 · CVC spelling',
     ages: 'Ages 5–6',
     grade: 'Kindergarten',
     subject: 'animals',
@@ -151,7 +151,7 @@ export const LEVELS = [
   {
     id: 7,
     title: 'Math Castle',
-    subtitle: 'Add & Subtract',
+    subtitle: 'Add/sub to 20 · CVC & blend spelling',
     ages: 'Ages 6–7',
     grade: '1st Grade',
     subject: 'math',
@@ -161,8 +161,8 @@ export const LEVELS = [
   {
     id: 8,
     title: 'Word Zoo',
-    subtitle: 'Words + Habitats',
-    ages: 'Ages 6–8',
+    subtitle: 'Sight words · add/sub quiz · habitats',
+    ages: 'Ages 6–7',
     grade: '1st Grade',
     subject: 'alphabet',
     art: 'book',
@@ -171,8 +171,8 @@ export const LEVELS = [
   {
     id: 9,
     title: 'World Explorers',
-    subtitle: 'Countries',
-    ages: 'Ages 7–9',
+    subtitle: 'Flags · add tens to 100 · silent-e spelling',
+    ages: 'Ages 7–8',
     grade: '2nd Grade',
     subject: 'countries',
     art: 'flag-japan',
@@ -181,8 +181,8 @@ export const LEVELS = [
   {
     id: 10,
     title: 'Super Scholars',
-    subtitle: 'Capitals + Mixed',
-    ages: 'Ages 8–10',
+    subtitle: 'Capitals · skip count · 2nd-grade spelling',
+    ages: 'Ages 7–8',
     grade: '2nd Grade',
     subject: 'countries',
     art: 'crown',
@@ -700,22 +700,344 @@ function scholarQuestions() {
   return [...capitalQs, ...continentQs, ...skip, ...groups, ...mapQs];
 }
 
+function mathCount(min, max) {
+  const qs = [];
+  for (let n = min; n <= max; n += 1) {
+    const item = n % 2 === 0 ? objects.apple : objects.star;
+    const itemName = n % 2 === 0 ? 'apples' : 'stars';
+    const options = uniqueOptions(n, [n - 1, n + 1, n + 2, Math.max(min, n - 2)]);
+    qs.push({
+      ...choice(
+        `How many ${itemName}?`,
+        `How many ${itemName}?`,
+        countGroup(item, n),
+        options.map((num) => ({
+          id: `n${num}`,
+          label: String(num),
+          html: numberCard(num),
+          correct: num === n,
+        })),
+      ),
+      maxValue: max,
+    });
+  }
+  return qs;
+}
+
+function mathMoreLess(max) {
+  return [2, 3, Math.min(5, max - 2)].filter((n) => n > 0 && n + 2 <= max).map((n) => ({
+    ...choice(
+      'Which group has MORE?',
+      'Which group has more?',
+      mascot('think'),
+      shuffle([
+        { id: 'more', label: String(n + 2), html: countGroup(objects.apple, n + 2), correct: true },
+        { id: 'less', label: String(n), html: countGroup(objects.apple, n), correct: false },
+        { id: 'tiny', label: '1', html: countGroup(objects.apple, 1), correct: false },
+        { id: 'mid', label: String(Math.max(1, n - 1)), html: countGroup(objects.balloon, Math.max(1, n - 1)), correct: false },
+      ]),
+    ),
+    maxValue: max,
+  }));
+}
+
+function mathAdd(pairs, max) {
+  return pairs.filter(([a, b]) => a + b <= max).map(([a, b]) => {
+    const sum = a + b;
+    const options = uniqueOptions(sum, [sum + 1, sum - 1, sum + 2, a, b]);
+    return {
+      ...choice(
+        `${a} + ${b} = ?`,
+        `${a} plus ${b} equals what?`,
+        `<div class="equation">${countGroup(objects.apple, a)}<span class="plus">+</span>${countGroup(objects.apple, b)}</div>`,
+        options.map((n) => ({
+          id: `s${n}`,
+          label: String(n),
+          html: numberCard(n),
+          correct: n === sum,
+        })),
+      ),
+      maxValue: max,
+    };
+  });
+}
+
+function mathSub(pairs, max) {
+  return pairs.filter(([a, b]) => a <= max && a - b >= 0).map(([a, b]) => {
+    const diff = a - b;
+    const options = uniqueOptions(diff, [diff + 1, diff - 1, diff + 2, a, b]);
+    return {
+      ...choice(
+        `${a} − ${b} = ?`,
+        `${a} minus ${b} equals what?`,
+        `<div class="equation">${countGroup(objects.balloon, a)}<span class="plus">−</span>${countGroup(objects.balloon, b)}</div>`,
+        options.map((n) => ({
+          id: `d${n}`,
+          label: String(n),
+          html: numberCard(n),
+          correct: n === diff,
+        })),
+      ),
+      maxValue: max,
+    };
+  });
+}
+
+function mathTens() {
+  const pairs = [[20, 10], [40, 20], [50, 30], [30, 10], [60, 20]];
+  return pairs.map(([a, b]) => {
+    const sum = a + b;
+    const options = uniqueOptions(sum, [sum + 10, sum - 10, a, b]);
+    return {
+      ...choice(
+        `${a} + ${b} = ?`,
+        `${a} plus ${b} equals what?`,
+        `<div class="equation"><div class="word-chip big">${a}</div><span class="plus">+</span><div class="word-chip big">${b}</div></div>`,
+        options.map((n) => ({
+          id: `t${n}`,
+          label: String(n),
+          html: numberCard(n),
+          correct: n === sum,
+        })),
+      ),
+      maxValue: 100,
+    };
+  });
+}
+
+function mathSkipSecondGrade() {
+  return [2, 5, 10].map((step) => {
+    const seq = [step, step * 2, step * 3, '?', step * 5];
+    const answer = step * 4;
+    const options = uniqueOptions(answer, [answer + step, answer - step, answer + 1, step]);
+    return {
+      ...choice(
+        `Skip count: ${seq.join(', ')}`,
+        `Skip count by ${step}. What number is missing?`,
+        countGroup(step === 2 ? objects.star : step === 5 ? objects.apple : objects.balloon, step),
+        options.map((n) => ({
+          id: `k${n}`,
+          label: String(n),
+          html: numberCard(n),
+          correct: n === answer,
+        })),
+      ),
+      maxValue: 50,
+    };
+  });
+}
+
+function mathGroupsSecondGrade() {
+  return [[2, 3], [2, 4], [5, 2]].map(([groupsCount, size]) => {
+    const product = groupsCount * size;
+    const options = uniqueOptions(product, [product + 2, product - 1, groupsCount + size, size]);
+    return {
+      ...choice(
+        `${groupsCount} groups of ${size} = ?`,
+        `${groupsCount} groups of ${size} equals what?`,
+        `<div class="equation">${Array.from({ length: groupsCount }, () => countGroup(objects.apple, size)).join('')}</div>`,
+        options.map((n) => ({
+          id: `p${n}`,
+          label: String(n),
+          html: numberCard(n),
+          correct: n === product,
+        })),
+      ),
+      maxValue: 10,
+    };
+  });
+}
+
+function firstLetterSpelling(pairs) {
+  return pairs.map(([letter, pic]) => {
+    const wrong = distractors(pairs.map((p) => ({ id: p[0] })), letter).map((p) => ({
+      id: p.id,
+      label: p.id,
+      html: letterCard(p.id),
+      correct: false,
+    }));
+    return choice(
+      `Which letter starts this picture?`,
+      `What letter does ${pic} start with?`,
+      draw(pic),
+      [
+        { id: letter, label: letter, html: letterCard(letter), correct: true },
+        ...wrong,
+      ],
+    );
+  });
+}
+
+function spellingQuiz(items) {
+  return items.map(({ word, pic, wrong }) =>
+    choice(
+      'Spelling quiz: which word matches the picture?',
+      `Which word matches this picture?`,
+      draw(pic),
+      shuffle([
+        { id: word, label: word, html: `<div class="word-chip big">${word}</div>`, correct: true },
+        ...wrong.map((w) => ({ id: w, label: w, html: `<div class="word-chip big">${w}</div>`, correct: false })),
+      ]),
+    ),
+  );
+}
+
+function missingLetterQuiz(items) {
+  return items.map(({ pattern, letter, pic, wrong }) =>
+    choice(
+      `Spelling quiz: ${pattern}`,
+      `Fill in the missing letter in ${pattern.replace('_', ' blank ')}`,
+      draw(pic),
+      shuffle([
+        { id: letter, label: letter, html: letterCard(letter), correct: true },
+        ...wrong.map((w) => ({ id: w, label: w, html: letterCard(w), correct: false })),
+      ]),
+    ),
+  );
+}
+
+function spellWords(items, extraLetters) {
+  return items.map(({ word, pic }) => {
+    const letters = [...word.toUpperCase()];
+    const extras = pickN(extraLetters.filter((l) => !letters.includes(l)), 2);
+    return {
+      type: 'spell',
+      prompt: `Spell this word!`,
+      speak: `Spell ${word.toLowerCase()}`,
+      stem: draw(pic),
+      word: word.toUpperCase(),
+      tiles: shuffle([...letters, ...extras]),
+      maxLetters: word.length,
+    };
+  });
+}
+
+const CVC = [
+  { word: 'CAT', pic: 'cat', wrong: ['COT', 'CAP', 'CUT'] },
+  { word: 'DOG', pic: 'dog', wrong: ['DIG', 'DOT', 'DUG'] },
+  { word: 'SUN', pic: 'sun', wrong: ['SON', 'SIN', 'SAD'] },
+  { word: 'HAT', pic: 'hat', wrong: ['HIT', 'HOT', 'HUT'] },
+  { word: 'PIG', pic: 'pig', wrong: ['PEG', 'PAG', 'POD'] },
+  { word: 'EGG', pic: 'egg', wrong: ['AGG', 'IGG', 'UG'] },
+];
+
+const BLENDS = [
+  { word: 'FROG', pic: 'frog', wrong: ['FOG', 'FRG', 'FRAG'] },
+  { word: 'TREE', pic: 'tree', wrong: ['TEE', 'TRY', 'TRE'] },
+  { word: 'FISH', pic: 'fish', wrong: ['FESH', 'FOSH', 'FAS'] },
+  { word: 'NEST', pic: 'nest', wrong: ['NAST', 'NOST', 'NET'] },
+];
+
+const SIGHT = [
+  { word: 'THE', pic: 'book', wrong: ['TEH', 'THA', 'HTE'] },
+  { word: 'AND', pic: 'book', wrong: ['ADN', 'NAD', 'END'] },
+  { word: 'YOU', pic: 'sun', wrong: ['YUO', 'YOH', 'UOY'] },
+  { word: 'SAID', pic: 'book', wrong: ['SIAD', 'SED', 'SAIDD'] },
+];
+
+const SILENT_E = [
+  { word: 'KITE', pic: 'kite', wrong: ['KIT', 'KIET', 'KYTE'] },
+  { word: 'CAKE', pic: 'cake', wrong: ['CAK', 'CAEK', 'CAKKE'] },
+  { word: 'GAME', pic: 'ball', wrong: ['GAM', 'GAEM', 'GAMEE'] },
+].map((item) => ({ ...item, wrong: item.wrong.filter((w) => w !== item.word).slice(0, 3) }));
+
+function tag(list, skill) {
+  return list.map((question) => ({ ...question, skill }));
+}
+
+function composeLevel(theme, math, spelling, mix) {
+  return shuffle([
+    ...pickN(tag(theme, 'explore'), mix.theme),
+    ...pickN(tag(math, 'math'), mix.math),
+    ...pickN(tag(spelling, 'spelling'), mix.spelling),
+  ]);
+}
+
 const BUILDERS = {
-  1: colorQuestions,
-  2: () => alphabetQuestions(LETTERS_AM),
-  3: farmQuestions,
-  4: () => alphabetQuestions(LETTERS_NZ),
-  5: mathCountQuestions,
-  6: wildQuestions,
-  7: addSubQuestions,
-  8: wordZooQuestions,
-  9: countryQuestions,
-  10: scholarQuestions,
+  1: () => composeLevel(
+    colorQuestions(),
+    [...mathCount(1, 5), ...mathMoreLess(5)],
+    firstLetterSpelling([['R', 'rainbow'], ['S', 'sun'], ['B', 'ball'], ['A', 'apple'], ['F', 'flower']]),
+    { theme: 4, math: 3, spelling: 3 },
+  ),
+  2: () => composeLevel(
+    alphabetQuestions(LETTERS_AM),
+    mathCount(1, 5),
+    firstLetterSpelling(LETTERS_AM),
+    { theme: 4, math: 3, spelling: 3 },
+  ),
+  3: () => composeLevel(
+    farmQuestions(),
+    [...mathCount(1, 10), ...mathMoreLess(10)],
+    firstLetterSpelling(FARM.map((a) => [a.name[0], a.id])),
+    { theme: 4, math: 3, spelling: 3 },
+  ),
+  4: () => composeLevel(
+    alphabetQuestions(LETTERS_NZ),
+    [...mathCount(4, 10), ...mathMoreLess(10)],
+    [
+      ...firstLetterSpelling(LETTERS_NZ),
+      ...missingLetterQuiz([
+        { pattern: 'SU_', letter: 'N', pic: 'sun', wrong: ['T', 'P', 'M'] },
+        { pattern: '_EST', letter: 'N', pic: 'nest', wrong: ['M', 'B', 'P'] },
+      ]),
+    ],
+    { theme: 4, math: 3, spelling: 3 },
+  ),
+  5: () => composeLevel(
+    mathCountQuestions(),
+    [...mathCount(11, 20), ...mathAdd([[1, 1], [2, 1], [2, 2], [3, 1], [4, 1]], 5)],
+    [...spellingQuiz(CVC), ...spellWords(CVC, ['B', 'M', 'R', 'L'])],
+    { theme: 3, math: 4, spelling: 3 },
+  ),
+  6: () => composeLevel(
+    wildQuestions(),
+    [...mathAdd([[2, 3], [4, 2], [5, 3], [1, 6], [4, 4]], 10), ...mathSub([[8, 2], [7, 3], [10, 1], [6, 4]], 10)],
+    [...spellWords(CVC, ['B', 'N', 'R', 'L']), ...spellingQuiz(CVC)],
+    { theme: 4, math: 3, spelling: 3 },
+  ),
+  7: () => composeLevel(
+    addSubQuestions(),
+    [...mathAdd([[6, 7], [8, 5], [9, 4], [10, 8], [7, 7]], 20), ...mathSub([[15, 6], [18, 9], [14, 5], [20, 8]], 20)],
+    [...spellWords([...CVC, ...BLENDS], ['S', 'P', 'L', 'N']), ...missingLetterQuiz([
+      { pattern: 'FR_G', letter: 'O', pic: 'frog', wrong: ['A', 'E', 'I'] },
+      { pattern: 'TR_E', letter: 'E', pic: 'tree', wrong: ['A', 'O', 'I'] },
+    ])],
+    { theme: 3, math: 4, spelling: 3 },
+  ),
+  8: () => composeLevel(
+    wordZooQuestions(),
+    [...mathAdd([[9, 8], [7, 6], [12, 5]], 20), ...mathSub([[16, 7], [19, 8], [13, 4]], 20)],
+    [...spellingQuiz(SIGHT), ...spellWords(BLENDS, ['A', 'O', 'U', 'I']), ...missingLetterQuiz([
+      { pattern: 'S_ID', letter: 'A', pic: 'book', wrong: ['E', 'I', 'O'] },
+    ])],
+    { theme: 3, math: 3, spelling: 4 },
+  ),
+  9: () => composeLevel(
+    countryQuestions(),
+    [...mathTens(), ...mathSub([[80, 10], [90, 20], [70, 30]], 100)],
+    [...spellWords(SILENT_E, ['O', 'U', 'I', 'A']), ...spellingQuiz(SILENT_E)],
+    { theme: 4, math: 3, spelling: 3 },
+  ),
+  10: () => composeLevel(
+    scholarQuestions(),
+    [...mathSkipSecondGrade(), ...mathGroupsSecondGrade(), ...mathTens()],
+    [
+      ...spellingQuiz([
+        { word: 'JAPAN', pic: 'flag-japan', wrong: ['JAPEN', 'JPN', 'JAPN'] },
+        { word: 'FRANCE', pic: 'flag-france', wrong: ['FRANS', 'FRANC', 'FRNSE'] },
+        { word: 'EGYPT', pic: 'flag-egypt', wrong: ['EJYPT', 'EGYPTA', 'EGIPT'] },
+        { word: 'ITALY', pic: 'flag-italy', wrong: ['ITALI', 'ITLY', 'ITALYY'] },
+      ]),
+      ...spellWords([{ word: 'LION', pic: 'lion' }, { word: 'BOOK', pic: 'book' }, { word: 'KITE', pic: 'kite' }], ['A', 'E', 'U']),
+    ],
+    { theme: 3, math: 4, spelling: 3 },
+  ),
 };
 
 export function buildLevelQuestions(levelId) {
-  const pool = BUILDERS[levelId]();
-  return pickN(pool, QUESTIONS_PER_LEVEL).map((q, index) => ({
+  const questions = BUILDERS[levelId]();
+  return questions.map((q, index) => ({
     ...q,
     id: `l${levelId}-q${index + 1}`,
   }));
