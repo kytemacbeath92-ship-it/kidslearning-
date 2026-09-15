@@ -440,6 +440,14 @@ function objHat() {
     <rect x="50" y="86" width="60" height="10" fill="#ffd56a"/>
   `, 'illu illu-bob');
 }
+function objCake() {
+  return svg(`
+    <rect x="36" y="78" width="88" height="44" rx="8" fill="#f4d7b0" stroke="${ink}" stroke-width="4"/>
+    <path d="M36 90 q18 -16 36 0 q18 16 36 0 q16 -14 16 0" fill="#ff7ad9" stroke="${ink}" stroke-width="3"/>
+    <rect x="74" y="46" width="12" height="34" fill="#ffd56a" stroke="${ink}" stroke-width="2"/>
+    <circle cx="80" cy="42" r="8" fill="#ff3b5c"/>
+  `, 'illu illu-bob');
+}
 function objKite() {
   return svg(`
     <polygon points="80,24 124,80 80,136 36,80" fill="#ff3b5c" stroke="${ink}" stroke-width="4"/>
@@ -597,6 +605,7 @@ export const objects = {
   leaf: objLeaf,
   hat: objHat,
   kite: objKite,
+  cake: objCake,
   umbrella: objUmbrella,
   icecream: objIcecream,
   balloon: objBalloon,

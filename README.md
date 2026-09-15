@@ -11,9 +11,22 @@ npm run dev
 
 Then open the local URL Vite prints (default `http://localhost:5173`).
 
+Works in a mobile or tablet browser (iPhone, Android, iPad). Add to the Home Screen for a full-screen app. Portrait and landscape are supported, with larger tap targets on touch screens.
+
+### Permanent Safari / phone URL
+
+GitHub Pages is not on yet in this repo’s settings. Turn it on once:
+
+1. Open **Settings → Pages**
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**, branch `gh-pages`, folder `/`
+3. The game will be at `https://kytemacbeath92-ship-it.github.io/kidslearning-/`
+
+Use that HTTPS address in iPhone/iPad Safari. Add to Home Screen for a full-screen app.
+
 ## How it works
 
-- **10 gated levels** from preschool colors through 2nd-grade countries.
+- **10 gated levels** from preschool through 2nd grade only. Content gets harder with each world, but never past that year’s ceiling.
+- Every level mixes the world theme with **math quizzes** and **spelling games** (tap-the-word, missing letters, and tap-to-spell).
 - Each level is **10 illustrated mini-games**. Score **at least 80%** (8/10) to unlock the next level.
 - Stars: 1 at 80%, 2 at 90%, 3 at 100%.
 - Bright cartoon pictures, bouncing hunt games, spoken questions, and sound effects.
@@ -21,18 +34,18 @@ Then open the local URL Vite prints (default `http://localhost:5173`).
 
 ## Levels
 
-| Level | World | Focus | Stage |
-| --- | --- | --- | --- |
-| 1 | Rainbow World | Colors | Preschool |
-| 2 | Letter Land A–M | Alphabet | Preschool |
-| 3 | Farm Friends | Animals | Pre-K |
-| 4 | Letter Land N–Z | Alphabet | Pre-K |
-| 5 | Number Jungle | Counting | Kindergarten |
-| 6 | Wild Safari | Animals + color mixing | Kindergarten |
-| 7 | Math Castle | Add & subtract | 1st Grade |
-| 8 | Word Zoo | Words + habitats | 1st Grade |
-| 9 | World Explorers | Flags, landmarks, continents | 2nd Grade |
-| 10 | Super Scholars | Capitals, skip counting, mixed review | 2nd Grade |
+| Level | World | Grade ceiling | Math | Spelling |
+| --- | --- | --- | --- | --- |
+| 1 | Rainbow World | Preschool | Count 1–5 | First letter |
+| 2 | Letter Land A–M | Preschool | Count 1–5 | First-letter spelling |
+| 3 | Farm Friends | Pre-K | Count 1–10 | First letter of animal names |
+| 4 | Letter Land N–Z | Pre-K | Count to 10, more/less | Beginning sounds |
+| 5 | Number Jungle | Kindergarten | Count to 20, add to 5 | CVC words (cat, sun) |
+| 6 | Wild Safari | Kindergarten | Add/sub within 10 | Spell CVC words |
+| 7 | Math Castle | 1st Grade | Add/sub within 20 | CVC and blends (frog, tree) |
+| 8 | Word Zoo | 1st Grade | Add/sub quiz within 20 | Sight words (the, said) |
+| 9 | World Explorers | 2nd Grade | Add tens within 100 | Silent-e (kite, cake) |
+| 10 | Super Scholars | 2nd Grade | Skip count, groups of 2/5/10 | Country names, 4-letter words |
 
 ## Tests
 
