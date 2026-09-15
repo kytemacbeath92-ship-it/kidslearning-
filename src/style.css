@@ -238,8 +238,8 @@ h1 {
 }
 
 .island.is-current {
-  animation: pulse 1.4s ease-in-out infinite;
   outline: 6px solid var(--yellow);
+  box-shadow: 0 0 0 10px rgba(255, 213, 106, 0.45), var(--shadow);
 }
 
 .island.is-locked {
@@ -464,6 +464,12 @@ h1 {
   border: 0;
   padding: 0;
   appearance: none;
+}
+
+.hunt-item:hover,
+.hunt-item:focus {
+  animation-play-state: paused;
+  z-index: 2;
 }
 
 .hunt-item .illu,
