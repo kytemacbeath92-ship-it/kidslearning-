@@ -11,6 +11,8 @@ npm run dev
 
 Then open the local URL Vite prints (default `http://localhost:5173`).
 
+Works in a mobile or tablet browser (iPhone, Android, iPad). Add to the Home Screen for a full-screen app. Portrait and landscape are supported, with larger tap targets on touch screens.
+
 ## How it works
 
 - **10 gated levels** from preschool through 2nd grade only. Content gets harder with each world, but never past that year’s ceiling.
