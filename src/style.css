@@ -478,19 +478,19 @@ h1 {
   position: absolute;
   left: 0;
   top: 0;
-  width: 9px;
-  height: 9px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--spark, var(--yellow));
-  box-shadow: 0 0 8px var(--spark, var(--yellow));
-  animation: fw-burst 1.35s ease-out infinite;
+  box-shadow: 0 0 12px 3px var(--spark, var(--yellow));
+  animation: fw-burst 1.45s ease-out infinite;
   transform: rotate(calc(var(--i) * 30deg)) translateY(0);
 }
 
 .firework.fw-e i {
-  width: 5px;
-  height: 16px;
-  border-radius: 6px;
+  width: 7px;
+  height: 22px;
+  border-radius: 8px;
   animation-name: fw-streak;
 }
 
@@ -516,9 +516,9 @@ h1 {
 
 .fw-ring {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  border: 3px solid #ffd56a;
+  width: 22px;
+  height: 22px;
+  border: 4px solid #ffd56a;
   border-radius: 50%;
   animation: fw-ring 1.5s ease-out infinite;
 }
@@ -529,12 +529,12 @@ h1 {
 
 .sparkle {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   background: #fff6e8;
   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
   animation: sparkle-twinkle 1.3s ease-in-out infinite;
-  filter: drop-shadow(0 0 6px currentColor);
+  filter: drop-shadow(0 0 8px currentColor);
   color: #ffd56a;
 }
 
@@ -581,23 +581,23 @@ h1 {
 
 @keyframes fw-burst {
   0% {
-    transform: rotate(calc(var(--i) * 30deg)) translateY(0) scale(0.35);
+    transform: rotate(calc(var(--i) * 30deg)) translateY(0) scale(0.4);
     opacity: 1;
   }
-  65% { opacity: 1; }
+  55% { opacity: 1; }
   100% {
-    transform: rotate(calc(var(--i) * 30deg)) translateY(-78px) scale(0.15);
+    transform: rotate(calc(var(--i) * 30deg)) translateY(-108px) scale(0.35);
     opacity: 0;
   }
 }
 
 @keyframes fw-streak {
   0% {
-    transform: rotate(calc(var(--i) * 36deg)) translateY(0) scaleY(0.3);
+    transform: rotate(calc(var(--i) * 36deg)) translateY(0) scaleY(0.25);
     opacity: 1;
   }
   100% {
-    transform: rotate(calc(var(--i) * 36deg)) translateY(-88px) scaleY(1);
+    transform: rotate(calc(var(--i) * 36deg)) translateY(-120px) scaleY(1.1);
     opacity: 0;
   }
 }
