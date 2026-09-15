@@ -13,6 +13,16 @@ Then open the local URL Vite prints (default `http://localhost:5173`).
 
 Works in a mobile or tablet browser (iPhone, Android, iPad). Add to the Home Screen for a full-screen app. Portrait and landscape are supported, with larger tap targets on touch screens.
 
+### Permanent Safari / phone URL
+
+GitHub Pages is not on yet in this repo’s settings. Turn it on once:
+
+1. Open **Settings → Pages**
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**, or **Deploy from a branch** `gh-pages` / `/`
+3. The game will be at `https://kytemacbeath92-ship-it.github.io/kidslearning-/`
+
+Use that HTTPS address in iPhone/iPad Safari. Add to Home Screen for a full-screen app.
+
 ## How it works
 
 - **10 gated levels** from preschool through 2nd grade only. Content gets harder with each world, but never past that year’s ceiling.
