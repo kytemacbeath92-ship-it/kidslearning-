@@ -105,12 +105,28 @@ function mapScreen() {
     </section>`;
 }
 
+function celebrateFx() {
+  const burst = (cls, count = 12) =>
+    `<div class="firework ${cls}">${Array.from({ length: count }, (_, i) => `<i style="--i:${i}"></i>`).join('')}</div>`;
+  const sparkles = Array.from({ length: 18 }, (_, i) => `<span class="sparkle" style="--s:${i}"></span>`).join('');
+  return `
+    <div class="celebrate-fx" aria-hidden="true">
+      ${burst('fw-a')}
+      ${burst('fw-b')}
+      ${burst('fw-c')}
+      ${burst('fw-d')}
+      ${burst('fw-e', 10)}
+      <div class="fw-ring ring-a"></div>
+      <div class="fw-ring ring-b"></div>
+      <div class="fw-ring ring-c"></div>
+      ${sparkles}
+    </div>`;
+}
+
 function celebrateOverlay() {
   return `
     <div class="quiz-celebrate" role="dialog" aria-label="Congratulations">
-      <div class="celebrate-bits" aria-hidden="true">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
+      ${celebrateFx()}
       <div class="celebrate-card">
         ${mascot(session.lastWasWrong ? 'encourage' : 'celebrate')}
         <p class="celebrate-kicker">${session.lastWasWrong ? 'Quiz complete' : 'You got it!'}</p>
