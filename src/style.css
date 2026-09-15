@@ -397,6 +397,11 @@ h1 {
   height: 88px;
 }
 
+.play-body {
+  position: relative;
+  min-height: min(62dvh, 540px);
+}
+
 .game-stage {
   background: rgba(255, 253, 248, 0.92);
   border: 4px solid var(--ink);
@@ -404,6 +409,250 @@ h1 {
   box-shadow: var(--shadow);
   padding: 16px;
   min-height: 420px;
+}
+
+.quiz-celebrate {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 213, 106, 0.9) 0 12%, transparent 13%),
+    radial-gradient(circle at 86% 18%, rgba(255, 122, 217, 0.85) 0 10%, transparent 11%),
+    radial-gradient(circle at 78% 82%, rgba(90, 210, 255, 0.8) 0 12%, transparent 13%),
+    rgba(255, 246, 232, 0.96);
+  border: 4px solid var(--ink);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: celebrate-pop 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.celebrate-card {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 420px;
+}
+
+.celebrate-card .mascot-illu,
+.celebrate-card svg {
+  width: min(150px, 42vw);
+  height: min(150px, 42vw);
+}
+
+.celebrate-kicker {
+  margin: 0;
+  font-weight: 700;
+  color: var(--purple);
+}
+
+.celebrate-title {
+  margin: 4px 0 8px;
+  font-size: clamp(1.7rem, 7vw, 2.6rem);
+  color: var(--ink);
+  animation: celebrate-bounce 0.7s ease;
+}
+
+.celebrate-actions {
+  margin-top: 8px;
+}
+
+.celebrate-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.firework {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.firework i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--spark, var(--yellow));
+  box-shadow: 0 0 12px 3px var(--spark, var(--yellow));
+  animation: fw-burst 1.45s ease-out infinite;
+  transform: rotate(calc(var(--i) * 30deg)) translateY(0);
+}
+
+.firework.fw-e i {
+  width: 7px;
+  height: 22px;
+  border-radius: 8px;
+  animation-name: fw-streak;
+}
+
+.fw-a { top: 18%; left: 16%; --spark: #ff3b5c; animation: fw-glow-red 1.35s ease-out infinite; }
+.fw-b { top: 14%; right: 14%; left: auto; --spark: #ffd56a; animation: fw-glow-yellow 1.5s ease-out infinite 0.2s; }
+.fw-c { top: 58%; left: 10%; --spark: #5ad2ff; animation: fw-glow-blue 1.4s ease-out infinite 0.35s; }
+.fw-d { top: 62%; right: 12%; left: auto; --spark: #4cd964; animation: fw-glow-green 1.45s ease-out infinite 0.12s; }
+.fw-e { top: 34%; left: 50%; --spark: #ff7ad9; animation: fw-glow-pink 1.6s ease-out infinite 0.28s; }
+
+.fw-a i { animation-delay: calc(var(--i) * 0.02s); }
+.fw-b i { animation-delay: calc(0.2s + var(--i) * 0.02s); }
+.fw-c i { animation-delay: calc(0.35s + var(--i) * 0.02s); }
+.fw-d i { animation-delay: calc(0.12s + var(--i) * 0.02s); }
+.fw-e i { animation-delay: calc(0.28s + var(--i) * 0.02s); }
+
+.firework i:nth-child(3n) { --spark: #7c5cff; }
+.firework i:nth-child(3n+1) { --spark: #ff8a3d; }
+.firework i:nth-child(4n) { --spark: #fff6e8; }
+.fw-a i:nth-child(odd) { --spark: #ff7ad9; }
+.fw-b i:nth-child(even) { --spark: #ff8a3d; }
+.fw-c i:nth-child(odd) { --spark: #7c5cff; }
+.fw-d i:nth-child(even) { --spark: #ffd56a; }
+
+.fw-ring {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 4px solid #ffd56a;
+  border-radius: 50%;
+  animation: fw-ring 1.5s ease-out infinite;
+}
+
+.ring-a { top: 16%; left: 15%; border-color: #ff3b5c; }
+.ring-b { top: 12%; right: 13%; border-color: #7c5cff; animation-delay: 0.25s; }
+.ring-c { top: 56%; left: 48%; border-color: #5ad2ff; animation-delay: 0.4s; }
+
+.sparkle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #fff6e8;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: sparkle-twinkle 1.3s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px currentColor);
+  color: #ffd56a;
+}
+
+.sparkle:nth-of-type(odd) { color: #ff7ad9; background: #ffe27a; }
+.sparkle:nth-of-type(3n) { color: #5ad2ff; background: #fff; }
+.sparkle:nth-of-type(4n) { color: #4cd964; background: #d8ffd8; }
+.sparkle:nth-of-type(5n) { color: #ff3b5c; background: #ffd56a; }
+
+.sparkle:nth-of-type(1) { top: 8%; left: 8%; animation-delay: 0s; }
+.sparkle:nth-of-type(2) { top: 11%; left: 42%; animation-delay: 0.1s; }
+.sparkle:nth-of-type(3) { top: 7%; left: 72%; animation-delay: 0.18s; }
+.sparkle:nth-of-type(4) { top: 22%; left: 90%; animation-delay: 0.05s; }
+.sparkle:nth-of-type(5) { top: 38%; left: 6%; animation-delay: 0.22s; }
+.sparkle:nth-of-type(6) { top: 44%; left: 88%; animation-delay: 0.3s; }
+.sparkle:nth-of-type(7) { top: 70%; left: 8%; animation-delay: 0.12s; }
+.sparkle:nth-of-type(8) { top: 78%; left: 28%; animation-delay: 0.28s; }
+.sparkle:nth-of-type(9) { top: 82%; left: 62%; animation-delay: 0.16s; }
+.sparkle:nth-of-type(10) { top: 74%; left: 88%; animation-delay: 0.08s; }
+.sparkle:nth-of-type(11) { top: 28%; left: 28%; animation-delay: 0.34s; }
+.sparkle:nth-of-type(12) { top: 26%; left: 68%; animation-delay: 0.2s; }
+.sparkle:nth-of-type(13) { top: 52%; left: 22%; animation-delay: 0.4s; }
+.sparkle:nth-of-type(14) { top: 50%; left: 78%; animation-delay: 0.14s; }
+.sparkle:nth-of-type(15) { top: 90%; left: 18%; animation-delay: 0.26s; }
+.sparkle:nth-of-type(16) { top: 88%; left: 48%; animation-delay: 0.32s; }
+.sparkle:nth-of-type(17) { top: 92%; left: 78%; animation-delay: 0.06s; }
+.sparkle:nth-of-type(18) { top: 16%; left: 52%; animation-delay: 0.38s; }
+
+@keyframes celebrate-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes celebrate-bounce {
+  0% { transform: scale(0.4) rotate(-8deg); opacity: 0; }
+  55% { transform: scale(1.12) rotate(3deg); opacity: 1; }
+  100% { transform: none; }
+}
+
+@keyframes fw-burst {
+  0% {
+    transform: rotate(calc(var(--i) * 30deg)) translateY(0) scale(0.4);
+    opacity: 1;
+  }
+  55% { opacity: 1; }
+  100% {
+    transform: rotate(calc(var(--i) * 30deg)) translateY(-108px) scale(0.35);
+    opacity: 0;
+  }
+}
+
+@keyframes fw-streak {
+  0% {
+    transform: rotate(calc(var(--i) * 36deg)) translateY(0) scaleY(0.25);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(calc(var(--i) * 36deg)) translateY(-120px) scaleY(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes fw-glow-red {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  22% { box-shadow: 0 0 22px 10px rgba(255, 59, 92, 0.55); }
+}
+
+@keyframes fw-glow-yellow {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  22% { box-shadow: 0 0 22px 10px rgba(255, 213, 106, 0.6); }
+}
+
+@keyframes fw-glow-blue {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  22% { box-shadow: 0 0 22px 10px rgba(90, 210, 255, 0.55); }
+}
+
+@keyframes fw-glow-green {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  22% { box-shadow: 0 0 22px 10px rgba(76, 217, 100, 0.5); }
+}
+
+@keyframes fw-glow-pink {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  22% { box-shadow: 0 0 22px 10px rgba(255, 122, 217, 0.55); }
+}
+
+@keyframes fw-ring {
+  0% { transform: scale(0.2); opacity: 0.95; }
+  100% { transform: scale(6.5); opacity: 0; }
+}
+
+@keyframes sparkle-twinkle {
+  0%, 100% { transform: scale(0.2) rotate(0deg); opacity: 0.15; }
+  40% { transform: scale(1.25) rotate(18deg); opacity: 1; }
+  70% { transform: scale(0.7) rotate(-8deg); opacity: 0.7; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-celebrate,
+  .celebrate-title,
+  .firework,
+  .firework i,
+  .fw-ring,
+  .sparkle {
+    animation: none;
+  }
+
+  .firework i,
+  .fw-ring,
+  .sparkle {
+    opacity: 0.7;
+  }
 }
 
 .game-stage.is-locked,
@@ -851,6 +1100,24 @@ h1 {
     padding: 12px;
   }
 
+  .play-body {
+    min-height: min(58dvh, 430px);
+  }
+
+  .celebrate-card .mascot-illu,
+  .celebrate-card svg {
+    width: 96px;
+    height: 96px;
+  }
+
+  .celebrate-title {
+    font-size: 1.7rem;
+  }
+
+  .celebrate-actions .btn {
+    min-height: 52px;
+  }
+
   .playfield {
     height: min(52dvh, 340px);
   }
@@ -962,6 +1229,25 @@ h1 {
 
   .game-stage {
     min-height: 0;
+  }
+
+  .play-body {
+    min-height: min(48dvh, 240px);
+  }
+
+  .celebrate-card .mascot-illu,
+  .celebrate-card svg {
+    width: 56px;
+    height: 56px;
+  }
+
+  .celebrate-title {
+    font-size: 1.35rem;
+    margin: 0 0 4px;
+  }
+
+  .celebrate-kicker {
+    font-size: 0.9rem;
   }
 
   .playfield {
