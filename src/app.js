@@ -4,6 +4,7 @@ import { bindQuestion, renderQuestion } from './games.js';
 import { draw, iconLock, iconStar, mascot } from './illustrations.js';
 import { LEVELS, buildLevelQuestions, getLevel } from './levels.js';
 import { QUESTIONS_PER_LEVEL, accuracyPercent, canPassLevel, starsForScore } from './scoring.js';
+import { advanceQuiz, recordQuizAnswer, retryQuiz } from './session.js';
 import { loadState, recordLevelResult, resetProgress, saveState } from './storage.js';
 
 let appEl;
@@ -104,9 +105,28 @@ function mapScreen() {
     </section>`;
 }
 
+function celebrateOverlay() {
+  return `
+    <div class="quiz-celebrate" role="dialog" aria-label="Congratulations">
+      <div class="celebrate-bits" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="celebrate-card">
+        ${mascot(session.lastWasWrong ? 'encourage' : 'celebrate')}
+        <p class="celebrate-kicker">${session.lastWasWrong ? 'Quiz complete' : 'You got it!'}</p>
+        <h2 class="celebrate-title">Congratulations!</h2>
+        <div class="btn-row celebrate-actions">
+          <button class="btn btn-primary" data-action="next-quiz">Next</button>
+          <button class="btn btn-ghost" data-action="retry-quiz">Retry</button>
+        </div>
+      </div>
+    </div>`;
+}
+
 function playScreen() {
   const level = getLevel(session.levelId);
   const q = session.questions[session.index];
+  const between = session.phase === 'between';
   const dots = session.questions
     .map((_, i) => {
       const answered = session.answers[i];
@@ -126,12 +146,15 @@ function playScreen() {
         </div>
         <div class="score-chip">⭐ ${session.correct}</div>
       </header>
-      <div class="prompt-row">
-        ${mascot(session.lastWasWrong ? 'encourage' : 'idle')}
-        <div class="speech">${q.prompt}</div>
-        <button class="icon-btn speak-btn" data-action="speak" aria-label="Hear the question">🔊</button>
+      <div class="play-body">
+        <div class="prompt-row">
+          ${mascot(session.lastWasWrong ? 'encourage' : 'idle')}
+          <div class="speech">${q.prompt}</div>
+          <button class="icon-btn speak-btn" data-action="speak" aria-label="Hear the question">🔊</button>
+        </div>
+        <div class="game-stage" id="game-stage">${renderQuestion(q)}</div>
+        ${between ? celebrateOverlay() : ''}
       </div>
-      <div class="game-stage" id="game-stage">${renderQuestion(q)}</div>
     </section>`;
 }
 
@@ -210,7 +233,7 @@ function bind() {
       if (e.key === 'Enter') handleAction('save-name');
     });
   }
-  if (screen === 'play') {
+  if (screen === 'play' && session?.phase !== 'between') {
     const stage = appEl.querySelector('#game-stage');
     const q = session.questions[session.index];
     bindQuestion(stage, q, onAnswer);
@@ -251,6 +274,13 @@ function handleAction(action) {
   } else if (action === 'speak' && session) {
     const q = session.questions[session.index];
     speak(q.speak || q.prompt);
+  } else if (action === 'retry-quiz' && session) {
+    session = retryQuiz(session);
+    pendingAdvance = false;
+    screen = 'play';
+    render();
+  } else if (action === 'next-quiz' && session) {
+    finishBetween();
   } else if (action === 'retry') {
     startLevel(session.levelId);
   } else if (action === 'next-level') {
@@ -277,38 +307,41 @@ function startLevel(levelId) {
     correct: 0,
     answers: [],
     lastWasWrong: false,
+    phase: 'play',
   };
   screen = 'play';
   pendingAdvance = false;
   render();
 }
 
-function onAnswer(correct) {
-  if (!session || pendingAdvance) return;
-  pendingAdvance = true;
-  session.answers[session.index] = correct;
-  session.lastWasWrong = !correct;
-  if (correct) session.correct += 1;
-  const more = session.index + 1 < QUESTIONS_PER_LEVEL;
-  setTimeout(() => {
-    pendingAdvance = false;
-    if (more) {
-      session.index += 1;
-      screen = 'play';
-      render();
+function finishBetween() {
+  session = advanceQuiz(session, QUESTIONS_PER_LEVEL);
+  pendingAdvance = false;
+  if (session.phase === 'results') {
+    const result = recordLevelResult(state, session.levelId, session.correct);
+    state = result.next;
+    screen = 'results';
+    render();
+    if (result.passed) {
+      play('fanfare');
+      burstConfetti();
     } else {
-      const result = recordLevelResult(state, session.levelId, session.correct);
-      state = result.next;
-      screen = 'results';
-      render();
-      if (result.passed) {
-        play('fanfare');
-        burstConfetti();
-      } else {
-        play('wrong');
-      }
+      play('wrong');
     }
-  }, 120);
+    return;
+  }
+  screen = 'play';
+  render();
+}
+
+function onAnswer(correct) {
+  if (!session || pendingAdvance || session.phase === 'between') return;
+  pendingAdvance = true;
+  session = recordQuizAnswer(session, correct);
+  screen = 'play';
+  render();
+  play('star');
+  speak('Congratulations!');
 }
 
 function escapeHtml(value) {
