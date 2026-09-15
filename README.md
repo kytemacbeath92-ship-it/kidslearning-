@@ -18,7 +18,7 @@ Works in a mobile or tablet browser (iPhone, Android, iPad). Add to the Home Scr
 GitHub Pages is not on yet in this repo’s settings. Turn it on once:
 
 1. Open **Settings → Pages**
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**, or **Deploy from a branch** `gh-pages` / `/`
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**, branch `gh-pages`, folder `/`
 3. The game will be at `https://kytemacbeath92-ship-it.github.io/kidslearning-/`
 
 Use that HTTPS address in iPhone/iPad Safari. Add to Home Screen for a full-screen app.
