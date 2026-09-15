@@ -29,6 +29,21 @@ function shine(cx, cy, rx = 11, ry = 7) {
   return `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="rgba(255,255,255,.38)"/>`;
 }
 
+function farmEye(cx, cy, r = 4.4) {
+  return `
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="${ink}" stroke-width="1.3"/>
+    <circle cx="${cx + r * 0.08}" cy="${cy + r * 0.06}" r="${r * 0.58}" fill="#3a2412"/>
+    <circle cx="${cx - r * 0.18}" cy="${cy - r * 0.22}" r="${r * 0.22}" fill="#fff"/>
+  `;
+}
+
+function clovenHoof(x, y, fill = '#3a2a18') {
+  return `
+    <path d="M${x - 5.2} ${y} q-1 7.5 5.2 8 v-8z" fill="${fill}" stroke="${ink}" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M${x + 5.2} ${y} q1 7.5 -5.2 8 v-8z" fill="${fill}" stroke="${ink}" stroke-width="1.7" stroke-linejoin="round"/>
+  `;
+}
+
 export function mascot(mood = 'idle') {
   const wing =
     mood === 'celebrate'
@@ -74,174 +89,238 @@ export function colorBlob(hex, label = '') {
 function animalCow() {
   return svg(`
     ${ground()}
-    <rect x="46" y="118" width="12" height="26" rx="5" fill="#f4f1ea" stroke="${ink}" stroke-width="3"/>
-    <rect x="66" y="120" width="12" height="24" rx="5" fill="#2d2150" stroke="${ink}" stroke-width="3"/>
-    <rect x="90" y="120" width="12" height="24" rx="5" fill="#f4f1ea" stroke="${ink}" stroke-width="3"/>
-    <rect x="108" y="118" width="12" height="26" rx="5" fill="#2d2150" stroke="${ink}" stroke-width="3"/>
-    <path d="M44 128 h10 M64 130 h10 M88 130 h10 M106 128 h10" stroke="#c9b48a" stroke-width="3" stroke-linecap="round"/>
-    <ellipse cx="82" cy="102" rx="48" ry="30" fill="#f7f4ee" stroke="${ink}" stroke-width="4"/>
-    ${shine(68, 90, 14, 8)}
-    <ellipse cx="58" cy="96" rx="14" ry="12" fill="#2d2150"/>
-    <ellipse cx="108" cy="108" rx="16" ry="12" fill="#2d2150"/>
-    <ellipse cx="80" cy="128" rx="10" ry="7" fill="#ffb6c8" stroke="${ink}" stroke-width="2"/>
-    <path d="M126 96 q16 10 4 26" fill="none" stroke="#f4e4c1" stroke-width="7" stroke-linecap="round"/>
-    <circle cx="72" cy="58" r="24" fill="#f7f4ee" stroke="${ink}" stroke-width="4"/>
-    <ellipse cx="48" cy="50" rx="8" ry="11" fill="#f4e4c1" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="92" cy="48" rx="8" ry="11" fill="#f4e4c1" stroke="${ink}" stroke-width="3"/>
-    <path d="M56 36 q-2 -10 8 -8 M80 34 q2 -10 8 -7" fill="none" stroke="#f4e4c1" stroke-width="5" stroke-linecap="round"/>
-    <ellipse cx="72" cy="70" rx="16" ry="11" fill="#ffb6c8" stroke="${ink}" stroke-width="2.5"/>
-    <ellipse cx="66" cy="70" rx="2.2" ry="3" fill="${ink}"/>
-    <ellipse cx="78" cy="70" rx="2.2" ry="3" fill="${ink}"/>
-    <circle cx="64" cy="54" r="4.5" fill="#fff"/><circle cx="80" cy="54" r="4.5" fill="#fff"/>
-    <circle cx="64" cy="54" r="2.4" fill="${ink}"/><circle cx="80" cy="54" r="2.4" fill="${ink}"/>
-    <circle cx="66" cy="53" r="0.9" fill="#fff"/><circle cx="82" cy="53" r="0.9" fill="#fff"/>
+    <path d="M48 108 v16" stroke="#f4f0e6" stroke-width="10" stroke-linecap="round"/>
+    <path d="M66 112 v14" stroke="#2d2150" stroke-width="10" stroke-linecap="round"/>
+    <path d="M94 112 v14" stroke="#f4f0e6" stroke-width="10" stroke-linecap="round"/>
+    <path d="M112 108 v16" stroke="#2d2150" stroke-width="10" stroke-linecap="round"/>
+    ${clovenHoof(48, 122, '#3a2a18')}
+    ${clovenHoof(66, 124, '#2a1c10')}
+    ${clovenHoof(94, 124, '#3a2a18')}
+    ${clovenHoof(112, 122, '#2a1c10')}
+    <path d="M128 92 q14 8 8 28 q-4 6 -10 4" fill="#efe6d4" stroke="${ink}" stroke-width="3"/>
+    <path d="M134 118 q2 10 8 12" fill="none" stroke="#2d2150" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="82" cy="100" rx="50" ry="32" fill="#f6f1e8" stroke="${ink}" stroke-width="4"/>
+    <ellipse cx="70" cy="92" rx="16" ry="10" fill="rgba(255,255,255,.45)"/>
+    <path d="M46 92 q8 -16 28 -8 q6 10 -4 18 q-16 6 -24 -10z" fill="#2d2150"/>
+    <path d="M86 86 q18 -14 36 2 q4 14 -10 20 q-20 2 -26 -22z" fill="#2d2150"/>
+    <ellipse cx="104" cy="112" rx="14" ry="10" fill="#2d2150"/>
+    <ellipse cx="80" cy="128" rx="12" ry="8" fill="#f4a7b8" stroke="${ink}" stroke-width="2"/>
+    <ellipse cx="75" cy="130" rx="2" ry="2.6" fill="#e0859a"/>
+    <ellipse cx="85" cy="130" rx="2" ry="2.6" fill="#e0859a"/>
+    <path d="M54 78 q-6 16 8 22" fill="#efe6d4" stroke="${ink}" stroke-width="3"/>
+    <circle cx="64" cy="56" r="26" fill="#f6f1e8" stroke="${ink}" stroke-width="4"/>
+    <path d="M52 34 q-4 -12 10 -8" fill="none" stroke="#efe6d4" stroke-width="5" stroke-linecap="round"/>
+    <path d="M72 32 q2 -12 12 -6" fill="none" stroke="#efe6d4" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="40" cy="50" rx="9" ry="13" fill="#efe6d4" stroke="${ink}" stroke-width="3"/>
+    <ellipse cx="86" cy="48" rx="9" ry="13" fill="#efe6d4" stroke="${ink}" stroke-width="3"/>
+    <ellipse cx="40" cy="52" rx="4.5" ry="7" fill="#ffc2d0"/>
+    <ellipse cx="86" cy="50" rx="4.5" ry="7" fill="#ffc2d0"/>
+    <ellipse cx="64" cy="70" rx="17" ry="12" fill="#f3b3c2" stroke="${ink}" stroke-width="2.4"/>
+    <ellipse cx="58" cy="70" rx="2.4" ry="3.4" fill="#5a2a38"/>
+    <ellipse cx="70" cy="70" rx="2.4" ry="3.4" fill="#5a2a38"/>
+    ${farmEye(54, 52, 4.6)}
+    ${farmEye(74, 50, 4.6)}
+    <path d="M56 80 q8 5 16 0" fill="none" stroke="#c47a88" stroke-width="2" stroke-linecap="round"/>
   `, 'illu illu-bob');
 }
 
 function animalPig() {
   return svg(`
     ${ground()}
-    <rect x="50" y="120" width="11" height="22" rx="5" fill="#ff9db8" stroke="${ink}" stroke-width="3"/>
-    <rect x="70" y="122" width="11" height="20" rx="5" fill="#ff9db8" stroke="${ink}" stroke-width="3"/>
-    <rect x="90" y="122" width="11" height="20" rx="5" fill="#ff9db8" stroke="${ink}" stroke-width="3"/>
-    <rect x="108" y="120" width="11" height="22" rx="5" fill="#ff9db8" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="82" cy="104" rx="46" ry="28" fill="#ffb6c8" stroke="${ink}" stroke-width="4"/>
-    ${shine(66, 92, 13, 7)}
-    <ellipse cx="82" cy="112" rx="22" ry="12" fill="#ff8aa8"/>
-    <path d="M124 98 q18 12 2 28" fill="none" stroke="#ff8aa8" stroke-width="8" stroke-linecap="round"/>
-    <circle cx="70" cy="64" r="26" fill="#ffb6c8" stroke="${ink}" stroke-width="4"/>
-    <ellipse cx="48" cy="46" rx="11" ry="15" fill="#ff9db8" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="90" cy="44" rx="11" ry="15" fill="#ff9db8" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="48" cy="48" rx="5" ry="8" fill="#ffd0dc"/>
-    <ellipse cx="90" cy="46" rx="5" ry="8" fill="#ffd0dc"/>
-    <ellipse cx="70" cy="76" rx="15" ry="11" fill="#ff8aa8" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="64" cy="76" rx="2.4" ry="3.2" fill="${ink}"/>
-    <ellipse cx="76" cy="76" rx="2.4" ry="3.2" fill="${ink}"/>
-    <circle cx="60" cy="58" r="5" fill="#fff"/><circle cx="80" cy="58" r="5" fill="#fff"/>
-    <circle cx="60" cy="58" r="2.6" fill="${ink}"/><circle cx="80" cy="58" r="2.6" fill="${ink}"/>
-    <circle cx="62" cy="56" r="1" fill="#fff"/><circle cx="82" cy="56" r="1" fill="#fff"/>
-    <path d="M62 86 q8 6 16 0" fill="none" stroke="${ink}" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M52 112 v16" stroke="#f39ab4" stroke-width="10" stroke-linecap="round"/>
+    <path d="M70 116 v14" stroke="#f39ab4" stroke-width="10" stroke-linecap="round"/>
+    <path d="M92 116 v14" stroke="#f39ab4" stroke-width="10" stroke-linecap="round"/>
+    <path d="M110 112 v16" stroke="#f39ab4" stroke-width="10" stroke-linecap="round"/>
+    ${clovenHoof(52, 126, '#d46b88')}
+    ${clovenHoof(70, 128, '#d46b88')}
+    ${clovenHoof(92, 128, '#d46b88')}
+    ${clovenHoof(110, 126, '#d46b88')}
+    <path d="M126 96 q16 4 10 22 q-18 16 -22 2" fill="none" stroke="#ee8eab" stroke-width="5"/>
+    <path d="M134 116 q8 10 2 4 q-8 -2 -2 -10" fill="#ee8eab" stroke="${ink}" stroke-width="2"/>
+    <ellipse cx="82" cy="102" rx="48" ry="30" fill="#ffb3c6" stroke="${ink}" stroke-width="4"/>
+    <ellipse cx="82" cy="116" rx="28" ry="12" fill="#f48eaa"/>
+    <path d="M54 104 q10 8 0 14 M108 104 q-10 8 0 14" fill="none" stroke="#f48eaa" stroke-width="3" stroke-linecap="round"/>
+    ${shine(64, 90, 14, 8)}
+    <ellipse cx="46" cy="88" rx="10" ry="8" fill="#ffc5d4"/>
+    <circle cx="68" cy="62" r="27" fill="#ffb3c6" stroke="${ink}" stroke-width="4"/>
+    <ellipse cx="44" cy="42" rx="13" ry="17" fill="#f39ab4" stroke="${ink}" stroke-width="3"/>
+    <ellipse cx="90" cy="40" rx="13" ry="17" fill="#f39ab4" stroke="${ink}" stroke-width="3"/>
+    <ellipse cx="44" cy="45" rx="6" ry="9" fill="#ffd4e0"/>
+    <ellipse cx="90" cy="43" rx="6" ry="9" fill="#ffd4e0"/>
+    <ellipse cx="68" cy="78" rx="16" ry="12" fill="#f48eaa" stroke="${ink}" stroke-width="3"/>
+    <ellipse cx="68" cy="76" rx="13" ry="8" fill="#ff9bb4"/>
+    <ellipse cx="62" cy="76" rx="2.6" ry="3.4" fill="#5a2a38"/>
+    <ellipse cx="74" cy="76" rx="2.6" ry="3.4" fill="#5a2a38"/>
+    ${farmEye(58, 56, 4.8)}
+    ${farmEye(80, 54, 4.8)}
+    <path d="M58 88 q10 7 20 0" fill="none" stroke="${ink}" stroke-width="2.2" stroke-linecap="round"/>
   `, 'illu illu-bob');
 }
 
 function animalChicken() {
   return svg(`
     ${ground()}
-    <path d="M68 132 l6 14 6 -4 6 4 6 -14" fill="#ff8a3d" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>
-    <ellipse cx="78" cy="108" rx="34" ry="26" fill="#fffaf0" stroke="${ink}" stroke-width="4"/>
-    ${shine(66, 98, 10, 6)}
-    <path d="M52 104 q-18 -8 -8 -30" fill="#ffd56a" stroke="${ink}" stroke-width="3" stroke-linecap="round"/>
-    <ellipse cx="54" cy="100" rx="12" ry="10" fill="#fff3c4" stroke="${ink}" stroke-width="3"/>
-    <path d="M98 100 q22 4 18 28 q-8 4 -20 2" fill="#ffe27a" stroke="${ink}" stroke-width="3"/>
-    <circle cx="92" cy="68" r="24" fill="#fffaf0" stroke="${ink}" stroke-width="4"/>
-    <path d="M80 48 q6 -16 16 -4 q6 -14 16 2 q4 -8 12 6" fill="#ff3b5c" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="108" cy="80" rx="8" ry="6" fill="#ff3b5c" stroke="${ink}" stroke-width="2"/>
-    <polygon points="112,70 132,76 112,84" fill="#ff8a3d" stroke="${ink}" stroke-width="3"/>
-    <circle cx="98" cy="64" r="5.5" fill="#fff"/><circle cx="98" cy="64" r="2.8" fill="${ink}"/>
-    <circle cx="100" cy="63" r="1" fill="#fff"/>
-    <path d="M84 76 q8 8 18 2" fill="none" stroke="${ink}" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M70 128 l-4 16 8 -3 6 7 6 -7 8 3 -4 -16" fill="#e67a20" stroke="${ink}" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M74 142 h8 M86 142 h8" stroke="#c45e12" stroke-width="2.2" stroke-linecap="round"/>
+    <ellipse cx="76" cy="108" rx="32" ry="24" fill="#fff8ea" stroke="${ink}" stroke-width="4"/>
+    <ellipse cx="70" cy="110" rx="18" ry="14" fill="#fff"/>
+    <path d="M54 104 q-4 10 10 16" fill="#fff3c8" stroke="${ink}" stroke-width="2.5"/>
+    <path d="M50 98 q-2 8 8 10 M58 96 q0 10 10 10 M66 96 q2 10 10 8" fill="none" stroke="#f0d9a0" stroke-width="2" stroke-linecap="round"/>
+    <path d="M48 92 q-16 -18 2 -32 q8 10 6 22" fill="#ffe27a" stroke="${ink}" stroke-width="3"/>
+    <path d="M100 96 q18 2 22 22 q-2 10 -18 10 q-8 -8 -4 -32z" fill="#f6d56a" stroke="${ink}" stroke-width="3"/>
+    <path d="M108 104 q8 4 6 16 M116 108 q6 4 4 14" fill="none" stroke="#e2b84a" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="96" cy="66" r="23" fill="#fff8ea" stroke="${ink}" stroke-width="4"/>
+    ${shine(86, 60, 8, 5)}
+    <path d="M84 46 q4 -14 14 -2 q8 -16 16 0 q6 -10 14 4 q-10 4 -16 2 q-8 8 -14 2 q-8 6 -14 -6z" fill="#e23b4c" stroke="${ink}" stroke-width="2.6"/>
+    <path d="M104 78 q4 10 0 16 q-8 2 -10 -6 q2 -8 10 -10z" fill="#e23b4c" stroke="${ink}" stroke-width="2.2"/>
+    <path d="M114 68 q18 4 16 10 q-4 4 -16 2z" fill="#f08a28" stroke="${ink}" stroke-width="2.4"/>
+    <path d="M114 74 q14 2 12 6" fill="#d96b18"/>
+    ${farmEye(100, 62, 5)}
+    <path d="M86 74 q10 7 20 1" fill="none" stroke="${ink}" stroke-width="2.2" stroke-linecap="round"/>
   `, 'illu illu-bob');
 }
 
 function animalHorse() {
   return svg(`
     ${ground()}
-    <rect x="58" y="122" width="11" height="24" rx="5" fill="#8a4f24" stroke="${ink}" stroke-width="3"/>
-    <rect x="76" y="124" width="11" height="22" rx="5" fill="#8a4f24" stroke="${ink}" stroke-width="3"/>
-    <rect x="96" y="124" width="11" height="22" rx="5" fill="#8a4f24" stroke="${ink}" stroke-width="3"/>
-    <rect x="112" y="122" width="11" height="24" rx="5" fill="#8a4f24" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="92" cy="106" rx="42" ry="26" fill="#c47a3a" stroke="${ink}" stroke-width="4"/>
-    ${shine(78, 94, 12, 7)}
-    <path d="M128 100 q18 16 -2 32" fill="#6b3b1f" stroke="${ink}" stroke-width="3"/>
-    <rect x="46" y="68" width="24" height="44" rx="12" fill="#c47a3a" stroke="${ink}" stroke-width="4"/>
-    <ellipse cx="40" cy="60" rx="22" ry="16" fill="#c47a3a" stroke="${ink}" stroke-width="4"/>
-    <ellipse cx="28" cy="64" rx="10" ry="7" fill="#e2b07a"/>
-    <path d="M62 46 q18 -26 4 22" fill="#5a3018" stroke="${ink}" stroke-width="3"/>
-    <path d="M58 52 q12 -18 2 10 M70 58 q10 -14 0 8" fill="#6b3b1f"/>
-    <ellipse cx="54" cy="42" rx="6" ry="9" fill="#c47a3a" stroke="${ink}" stroke-width="3"/>
-    <circle cx="30" cy="56" r="5" fill="#fff"/><circle cx="30" cy="56" r="2.6" fill="${ink}"/>
-    <circle cx="31.5" cy="55" r="0.9" fill="#fff"/>
-    <ellipse cx="22" cy="66" rx="2" ry="1.4" fill="${ink}"/>
+    <path d="M60 108 v12 q0 8 -2 14" stroke="#6b3a18" stroke-width="8" stroke-linecap="round"/>
+    <path d="M76 112 v10 q0 8 0 14" stroke="#6b3a18" stroke-width="8" stroke-linecap="round"/>
+    <path d="M100 112 v10 q0 8 1 14" stroke="#6b3a18" stroke-width="8" stroke-linecap="round"/>
+    <path d="M116 108 v12 q0 8 2 14" stroke="#6b3a18" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="58" cy="134" rx="6" ry="3.4" fill="#2d1a0c" stroke="${ink}" stroke-width="1.8"/>
+    <ellipse cx="76" cy="136" rx="6" ry="3.4" fill="#2d1a0c" stroke="${ink}" stroke-width="1.8"/>
+    <ellipse cx="101" cy="136" rx="6" ry="3.4" fill="#2d1a0c" stroke="${ink}" stroke-width="1.8"/>
+    <ellipse cx="118" cy="134" rx="6" ry="3.4" fill="#2d1a0c" stroke="${ink}" stroke-width="1.8"/>
+    <ellipse cx="58" cy="128" rx="4" ry="3" fill="#d8b48a"/>
+    <ellipse cx="76" cy="130" rx="4" ry="3" fill="#d8b48a"/>
+    <ellipse cx="101" cy="130" rx="4" ry="3" fill="#d8b48a"/>
+    <ellipse cx="118" cy="128" rx="4" ry="3" fill="#d8b48a"/>
+    <path d="M128 92 q16 8 8 30 q-10 8 -16 2" fill="#4a2610" stroke="${ink}" stroke-width="3"/>
+    <path d="M132 104 q8 10 2 22 M138 110 q6 10 0 18" fill="none" stroke="#3a1c0c" stroke-width="2.2" stroke-linecap="round"/>
+    <ellipse cx="92" cy="100" rx="40" ry="26" fill="#c36e2e" stroke="${ink}" stroke-width="4"/>
+    <ellipse cx="78" cy="96" rx="16" ry="12" fill="#d88844"/>
+    ${shine(80, 90, 12, 7)}
+    <path d="M58 86 q-8 18 2 28" fill="#c36e2e" stroke="${ink}" stroke-width="3.4"/>
+    <rect x="40" y="62" width="26" height="40" rx="13" fill="#c36e2e" stroke="${ink}" stroke-width="3.6"/>
+    <ellipse cx="36" cy="56" rx="22" ry="15" fill="#c36e2e" stroke="${ink}" stroke-width="3.6"/>
+    <path d="M24 50 q-2 8 6 12" fill="#f0d2a4"/>
+    <ellipse cx="26" cy="62" rx="11" ry="7" fill="#e8c090"/>
+    <ellipse cx="20" cy="64" rx="2.2" ry="1.6" fill="#5a2a18"/>
+    <ellipse cx="28" cy="64" rx="2.2" ry="1.6" fill="#5a2a18"/>
+    <path d="M28 46 q-2 -10 8 -6" fill="#f7efe2" stroke="${ink}" stroke-width="2"/>
+    <path d="M62 40 q20 -28 6 20" fill="#3f210e" stroke="${ink}" stroke-width="3"/>
+    <path d="M56 48 q12 -18 4 10 M68 54 q12 -16 2 8 M74 62 q10 -12 0 8" fill="#4a2610"/>
+    <ellipse cx="56" cy="38" rx="6" ry="10" fill="#c36e2e" stroke="${ink}" stroke-width="2.6"/>
+    <ellipse cx="56" cy="38" rx="2.4" ry="5" fill="#e8c090"/>
+    ${farmEye(28, 52, 4.6)}
   `, 'illu illu-bob');
 }
 
 function animalSheep() {
   return svg(`
     ${ground()}
-    <rect x="54" y="124" width="10" height="20" rx="4" fill="#2d2150" stroke="${ink}" stroke-width="3"/>
-    <rect x="74" y="126" width="10" height="18" rx="4" fill="#2d2150" stroke="${ink}" stroke-width="3"/>
-    <rect x="92" y="126" width="10" height="18" rx="4" fill="#2d2150" stroke="${ink}" stroke-width="3"/>
-    <rect x="108" y="124" width="10" height="20" rx="4" fill="#2d2150" stroke="${ink}" stroke-width="3"/>
-    <circle cx="50" cy="100" r="20" fill="#f7f7f4" stroke="${ink}" stroke-width="3"/>
-    <circle cx="110" cy="102" r="20" fill="#f7f7f4" stroke="${ink}" stroke-width="3"/>
-    <circle cx="80" cy="86" r="30" fill="#f7f7f4" stroke="${ink}" stroke-width="3"/>
-    <circle cx="62" cy="118" r="16" fill="#f7f7f4" stroke="${ink}" stroke-width="3"/>
-    <circle cx="100" cy="118" r="16" fill="#f7f7f4" stroke="${ink}" stroke-width="3"/>
-    <circle cx="80" cy="112" r="18" fill="#fff"/>
-    <circle cx="68" cy="54" r="18" fill="#3a2a1a" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="52" cy="48" rx="6" ry="10" fill="#3a2a1a" stroke="${ink}" stroke-width="2.5"/>
-    <ellipse cx="82" cy="46" rx="6" ry="10" fill="#3a2a1a" stroke="${ink}" stroke-width="2.5"/>
-    <ellipse cx="68" cy="62" rx="8" ry="6" fill="#5a4030"/>
-    <circle cx="61" cy="52" r="4.5" fill="#fff"/><circle cx="75" cy="52" r="4.5" fill="#fff"/>
-    <circle cx="61" cy="52" r="2.3" fill="${ink}"/><circle cx="75" cy="52" r="2.3" fill="${ink}"/>
-    <ellipse cx="68" cy="64" rx="5" ry="3" fill="#ffb6c8"/>
+    <path d="M54 116 v16" stroke="#2d2150" stroke-width="8" stroke-linecap="round"/>
+    <path d="M72 118 v14" stroke="#2d2150" stroke-width="8" stroke-linecap="round"/>
+    <path d="M96 118 v14" stroke="#2d2150" stroke-width="8" stroke-linecap="round"/>
+    <path d="M114 116 v16" stroke="#2d2150" stroke-width="8" stroke-linecap="round"/>
+    ${clovenHoof(54, 130)}
+    ${clovenHoof(72, 130)}
+    ${clovenHoof(96, 130)}
+    ${clovenHoof(114, 130)}
+    <circle cx="48" cy="98" r="18" fill="#f4f2ea" stroke="${ink}" stroke-width="2.6"/>
+    <circle cx="70" cy="84" r="22" fill="#f7f5ee" stroke="${ink}" stroke-width="2.6"/>
+    <circle cx="96" cy="84" r="23" fill="#f4f2ea" stroke="${ink}" stroke-width="2.6"/>
+    <circle cx="118" cy="100" r="18" fill="#f7f5ee" stroke="${ink}" stroke-width="2.6"/>
+    <circle cx="62" cy="112" r="16" fill="#efebe0" stroke="${ink}" stroke-width="2.6"/>
+    <circle cx="88" cy="108" r="18" fill="#f7f5ee" stroke="${ink}" stroke-width="2.6"/>
+    <circle cx="108" cy="116" r="14" fill="#efebe0" stroke="${ink}" stroke-width="2.6"/>
+    <circle cx="80" cy="98" r="16" fill="#fff"/>
+    <path d="M56 90 q8 6 0 10 M74 78 q10 6 2 12 M98 78 q8 8 -2 10 M110 96 q8 6 0 10" fill="none" stroke="#e4ddd0" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="62" cy="52" r="17" fill="#3d2a1c" stroke="${ink}" stroke-width="3"/>
+    <ellipse cx="46" cy="48" rx="6" ry="11" fill="#3d2a1c" stroke="${ink}" stroke-width="2.4"/>
+    <ellipse cx="76" cy="46" rx="6" ry="11" fill="#3d2a1c" stroke="${ink}" stroke-width="2.4"/>
+    <ellipse cx="46" cy="50" rx="2.6" ry="6" fill="#c9a48a"/>
+    <ellipse cx="76" cy="48" rx="2.6" ry="6" fill="#c9a48a"/>
+    <ellipse cx="62" cy="60" rx="9" ry="6.5" fill="#5a4030"/>
+    <ellipse cx="62" cy="62" rx="6" ry="3.4" fill="#f4a7b8"/>
+    ${farmEye(55, 50, 4.2)}
+    ${farmEye(69, 48, 4.2)}
   `, 'illu illu-bob');
 }
 
 function animalDuck() {
   return svg(`
     ${ground()}
-    <path d="M62 130 q8 14 16 0 q8 14 16 0" fill="#ff8a3d" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="74" cy="108" rx="38" ry="24" fill="#ffe27a" stroke="${ink}" stroke-width="4"/>
-    ${shine(60, 98, 12, 6)}
-    <ellipse cx="58" cy="108" rx="14" ry="10" fill="#ffd56a"/>
-    <path d="M48 100 q-16 -6 -6 -26" fill="#ffe27a" stroke="${ink}" stroke-width="3"/>
-    <circle cx="112" cy="76" r="22" fill="#ffe27a" stroke="${ink}" stroke-width="4"/>
-    <ellipse cx="134" cy="80" rx="16" ry="8" fill="#ff8a3d" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="138" cy="76" rx="8" ry="4" fill="#ffb24d"/>
-    <circle cx="118" cy="70" r="5.5" fill="#fff"/><circle cx="118" cy="70" r="2.8" fill="${ink}"/>
-    <circle cx="120" cy="69" r="1" fill="#fff"/>
-    <path d="M102 86 q10 8 20 2" fill="none" stroke="${ink}" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M58 128 q10 16 20 0" fill="#f08a28" stroke="${ink}" stroke-width="2.6"/>
+    <path d="M78 128 q10 16 20 0" fill="#f08a28" stroke="${ink}" stroke-width="2.6"/>
+    <path d="M62 140 h12 M82 140 h12" stroke="#d96b18" stroke-width="2.4" stroke-linecap="round"/>
+    <ellipse cx="74" cy="106" rx="36" ry="24" fill="#fff6dc" stroke="${ink}" stroke-width="4"/>
+    <ellipse cx="62" cy="104" rx="16" ry="12" fill="#fff"/>
+    ${shine(60, 96, 12, 6)}
+    <path d="M96 100 q16 2 18 18 q-6 8 -20 6" fill="#fff0c8" stroke="${ink}" stroke-width="2.8"/>
+    <path d="M100 104 q8 4 8 14 M108 108 q6 4 4 12" fill="none" stroke="#f0d59a" stroke-width="2" stroke-linecap="round"/>
+    <path d="M50 96 q-14 -8 -4 -26 q10 6 10 18" fill="#fff6dc" stroke="${ink}" stroke-width="3"/>
+    <circle cx="114" cy="72" r="20" fill="#fff6dc" stroke="${ink}" stroke-width="4"/>
+    <path d="M128 70 q20 2 22 10 q-2 6 -22 6z" fill="#f08a28" stroke="${ink}" stroke-width="2.6"/>
+    <path d="M130 74 q16 2 16 6" fill="#d96b18"/>
+    <ellipse cx="136" cy="72" rx="2.2" ry="1.5" fill="#8a3a10"/>
+    ${farmEye(118, 66, 5)}
+    <path d="M102 82 q10 7 18 2" fill="none" stroke="${ink}" stroke-width="2.2" stroke-linecap="round"/>
   `, 'illu illu-bob');
 }
 
 function animalDog() {
   return svg(`
     ${ground()}
-    <ellipse cx="118" cy="108" rx="16" ry="8" fill="#c47a3a" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="80" cy="112" rx="40" ry="26" fill="#e0a15a" stroke="${ink}" stroke-width="4"/>
-    ${shine(66, 100, 12, 7)}
-    <ellipse cx="80" cy="118" rx="18" ry="10" fill="#f0c48a"/>
-    <rect x="54" y="124" width="12" height="18" rx="6" fill="#c47a3a" stroke="${ink}" stroke-width="3"/>
-    <rect x="94" y="124" width="12" height="18" rx="6" fill="#c47a3a" stroke="${ink}" stroke-width="3"/>
-    <circle cx="80" cy="66" r="28" fill="#e0a15a" stroke="${ink}" stroke-width="4"/>
-    <ellipse cx="50" cy="58" rx="12" ry="20" fill="#c47a3a" stroke="${ink}" stroke-width="3"/>
-    <ellipse cx="110" cy="50" rx="12" ry="18" fill="#c47a3a" stroke="${ink}" stroke-width="3" transform="rotate(18 110 50)"/>
-    ${eyes(80, 64)}
-    <ellipse cx="80" cy="80" rx="9" ry="6" fill="#5a3a1a"/>
-    <ellipse cx="80" cy="78" rx="4" ry="2.4" fill="#2d2150"/>
-    <path d="M74 86 q6 8 12 0" fill="#ff7aa2"/>
-    <rect x="64" y="98" width="32" height="8" rx="4" fill="#7c5cff" stroke="${ink}" stroke-width="2"/>
+    <path d="M122 100 q18 10 10 30 q-12 4 -16 -8" fill="#c47a3a" stroke="${ink}" stroke-width="3"/>
+    <ellipse cx="80" cy="114" rx="38" ry="24" fill="#e2a35c" stroke="${ink}" stroke-width="4"/>
+    <ellipse cx="80" cy="122" rx="18" ry="10" fill="#f3d2a4"/>
+    ${shine(66, 104, 11, 6)}
+    <path d="M52 122 v14" stroke="#c47a3a" stroke-width="9" stroke-linecap="round"/>
+    <path d="M108 122 v14" stroke="#c47a3a" stroke-width="9" stroke-linecap="round"/>
+    <ellipse cx="52" cy="136" rx="7" ry="3.4" fill="#5a3a1a" stroke="${ink}" stroke-width="1.8"/>
+    <ellipse cx="108" cy="136" rx="7" ry="3.4" fill="#5a3a1a" stroke="${ink}" stroke-width="1.8"/>
+    <circle cx="80" cy="64" r="27" fill="#e2a35c" stroke="${ink}" stroke-width="4"/>
+    <ellipse cx="80" cy="78" rx="16" ry="12" fill="#f3d2a4"/>
+    <ellipse cx="48" cy="62" rx="11" ry="18" fill="#c47a3a" stroke="${ink}" stroke-width="3"/>
+    <ellipse cx="112" cy="56" rx="11" ry="17" fill="#c47a3a" stroke="${ink}" stroke-width="3" transform="rotate(16 112 56)"/>
+    <ellipse cx="48" cy="66" rx="5" ry="9" fill="#a8642c"/>
+    <ellipse cx="112" cy="60" rx="5" ry="8" fill="#a8642c" transform="rotate(16 112 60)"/>
+    ${farmEye(70, 60, 5.2)}
+    ${farmEye(90, 60, 5.2)}
+    <ellipse cx="80" cy="78" rx="8" ry="5.4" fill="#5a3a1a"/>
+    <ellipse cx="80" cy="76" rx="3.6" ry="2.2" fill="#2d2150"/>
+    <path d="M72 86 q8 8 16 0" fill="#ff8aa8"/>
+    <rect x="64" y="96" width="32" height="8" rx="4" fill="#7c5cff" stroke="${ink}" stroke-width="2"/>
+    <circle cx="80" cy="100" r="2.2" fill="#ffd56a" stroke="${ink}" stroke-width="1.2"/>
   `, 'illu illu-bob');
 }
 
 function animalCat() {
   return svg(`
     ${ground()}
-    <path d="M118 104 q22 18 2 36" fill="none" stroke="#ffb24d" stroke-width="9" stroke-linecap="round"/>
-    <path d="M122 118 q8 4 0 10 M128 128 q6 4 -2 8" stroke="#e08920" stroke-width="2"/>
-    <ellipse cx="80" cy="112" rx="34" ry="24" fill="#ffb24d" stroke="${ink}" stroke-width="4"/>
+    <path d="M118 100 q24 16 6 38" fill="none" stroke="#f0a030" stroke-width="9" stroke-linecap="round"/>
+    <path d="M124 112 q6 6 -2 10 M130 122 q6 6 -2 10 M134 132 q4 4 -2 6" stroke="#c47a20" stroke-width="2.2" stroke-linecap="round"/>
+    <ellipse cx="80" cy="112" rx="33" ry="23" fill="#f0a030" stroke="${ink}" stroke-width="4"/>
+    <ellipse cx="80" cy="118" rx="14" ry="8" fill="#ffe7b8"/>
     ${shine(68, 102, 10, 6)}
-    <ellipse cx="80" cy="116" rx="14" ry="8" fill="#ffe0a8"/>
-    <circle cx="80" cy="68" r="26" fill="#ffb24d" stroke="${ink}" stroke-width="4"/>
-    <polygon points="54,54 60,28 76,54" fill="#ffb24d" stroke="${ink}" stroke-width="3"/>
-    <polygon points="106,54 100,28 84,54" fill="#ffb24d" stroke="${ink}" stroke-width="3"/>
-    <polygon points="60,50 62,36 70,50" fill="#ffd0dc"/>
-    <polygon points="100,50 98,36 90,50" fill="#ffd0dc"/>
-    ${eyes(80, 68)}
-    <path d="M80 76 l-4 5 8 0 z" fill="#ff7aa2" stroke="${ink}" stroke-width="2"/>
-    <path d="M56 78 h-18 M56 84 h-16 M104 78 h18 M104 84 h16" stroke="${ink}" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M70 88 q10 6 20 0" fill="none" stroke="${ink}" stroke-width="2.5"/>
+    <path d="M58 100 q0 10 8 8 M72 96 q2 12 10 8 M90 96 q-2 12 8 8 M104 100 q0 10 -8 8" fill="none" stroke="#c47a20" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M56 122 v12" stroke="#f0a030" stroke-width="8" stroke-linecap="round"/>
+    <path d="M104 122 v12" stroke="#f0a030" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="56" cy="134" rx="6" ry="3" fill="#ffe7b8" stroke="${ink}" stroke-width="1.6"/>
+    <ellipse cx="104" cy="134" rx="6" ry="3" fill="#ffe7b8" stroke="${ink}" stroke-width="1.6"/>
+    <circle cx="80" cy="66" r="25" fill="#f0a030" stroke="${ink}" stroke-width="4"/>
+    <path d="M68 50 q0 -10 8 0 M80 48 q0 -12 0 6 M92 50 q0 -10 -8 0" fill="none" stroke="#c47a20" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="54,54 58,26 76,52" fill="#f0a030" stroke="${ink}" stroke-width="3"/>
+    <polygon points="106,54 102,26 84,52" fill="#f0a030" stroke="${ink}" stroke-width="3"/>
+    <polygon points="60,50 61,34 70,50" fill="#ffd0dc"/>
+    <polygon points="100,50 99,34 90,50" fill="#ffd0dc"/>
+    <ellipse cx="80" cy="80" rx="10" ry="7" fill="#ffe7b8"/>
+    ${farmEye(70, 66, 5)}
+    ${farmEye(90, 66, 5)}
+    <path d="M80 74 l-3.6 4.4 7.2 0 z" fill="#ff7aa2" stroke="${ink}" stroke-width="1.8"/>
+    <path d="M54 76 h-18 M54 82 h-16 M106 76 h18 M106 82 h16" stroke="${ink}" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M70 86 q10 6 20 0" fill="none" stroke="${ink}" stroke-width="2.2"/>
   `, 'illu illu-wiggle');
 }
 
