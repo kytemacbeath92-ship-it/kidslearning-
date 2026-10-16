@@ -231,6 +231,7 @@ function parentScreen() {
           <tbody>${rows}</tbody>
         </table>
         </div>
+        <p><a class="emberbond-link" href="./emberbond.html">Play Emberbond: Hollow Vale</a> — an original open-world Kin adventure for phones (separate from this learning path).</p>
         <button class="btn btn-ghost danger" data-action="reset">Reset progress</button>
       </div>
     </section>`;
