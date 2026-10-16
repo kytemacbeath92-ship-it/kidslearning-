@@ -2,6 +2,8 @@
 
 An illustrated learning game for kids under 10, with a 10-level path inspired by ABCmouse, Khan Academy Kids, and Duolingo ABC.
 
+This repo also includes **Emberbond: Hollow Vale**, an original mobile RPG (open-world exploration plus creature-collection battles). It is not a Pokémon or Skyrim crossover — those worlds and characters are owned by their publishers — and uses original places, people, and Kin.
+
 ## Play
 
 ```bash
@@ -46,6 +48,33 @@ Use that HTTPS address in iPhone/iPad Safari. Add to Home Screen for a full-scre
 | 8 | Word Zoo | 1st Grade | Add/sub quiz within 20 | Sight words (the, said) |
 | 9 | World Explorers | 2nd Grade | Add tens within 100 | Silent-e (kite, cake) |
 | 10 | Super Scholars | 2nd Grade | Skip count, groups of 2/5/10 | Country names, 4-letter words |
+
+## Emberbond: Hollow Vale
+
+A second, original game for phones. JavaScript + HTML5 Canvas (Vite) so it runs in mobile Safari and Chrome, and can be added to the Home Screen as a full-screen app.
+
+```bash
+npm install
+npm run dev
+```
+
+Open `/emberbond.html` (Vite prints the local URL, then add `emberbond.html`).
+
+### Why this stack
+
+For a first mobile version, a progressive web app in JavaScript is the fastest way to play on iPhone and Android without an app store. The same code can later move into a wrapper (Capacitor) if you want store listings.
+
+### How to play
+
+- **Move** with the on-screen stick, WASD / arrows, or tap the ground.
+- **Talk / rest / take** with the round action button (or Space / E).
+- Walk the tall grass north of Hearthmere to meet wild **Kin**. Fight turn-based battles, or bind them with **Binding Stones**.
+- Relight the Pine, Frost, and Ember shrines, then face **Hollowmaw** in the northern ruins.
+- Menu: party, satchel, quests, discovered fast-travel, save. Progress stores on the device.
+
+### Original setting
+
+You are a wanderer in the **Hollow Vale**. The World-Hearth is cracking. Bind Kin of ember, frost, grove, gale, stone, and shade. Side pacts include Lira’s lost Bramblet and Bram’s ember ore.
 
 ## Tests
 
